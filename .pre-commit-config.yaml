@@ -1,0 +1,44 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+        types: [file, python]
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: check-added-large-files
+        args: [--maxkb=4096]
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        args: ["--line-length", "120"]
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--profile", "black", "-l", "120"]
+  - repo: https://gitlab.com/pycqa/flake8.git
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+        types: [python]
+        args:
+          [
+            "--max-line-length", "120",
+            "--ignore", "F811,F841,E203,E402,E712,W503",
+            "--per-file-ignores", "__init__.py:F401"
+          ]
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.8.0.3
+    hooks:
+      - id: shellcheck
+        exclude: test
+        args: ["--exclude", "SC1091,SC1073,SC2086,SC2128"]
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.23.0
+    hooks:
+      - id: yamllint
+        args: ["-d", "{extends: relaxed, rules: {line-length: {max: 120}}}"]
